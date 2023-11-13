@@ -49,14 +49,11 @@ return {
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			-- Snippet engine and its associated nvim-cmp
-			"L3MON4D3/LuaSnip",
+			{"L3MON4D3/LuaSnip", build = "make install_jsregexp"},
 			"saadparwaiz1/cmp_luasnip",
 
 			-- Adds LSP completion capabilities
 			"hrsh7th/cmp-nvim-lsp",
-
-			-- Adds a number of user-friendly snippets
-			--"rafamadriz/friendly-snippets",
 		},
 	},
 
