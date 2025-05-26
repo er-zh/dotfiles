@@ -10,8 +10,11 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd [[colorscheme onedark]]
-		end,
+			require('onedark').setup {
+				style = 'dark'
+			}
+			require('onedark').load()
+		end
 	},
 
 	{
@@ -32,15 +35,22 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-
 			-- Useful status updates for LSP
 			{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
 
 			-- Additional lua configuration stuff
 			-- docs and completion for nvim api
 			"folke/neodev.nvim"
+		},
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {
+			ensure_installed = {"clangd", "rust_analyzer", "gopls", "lua_ls"},
+		},
+		dependencies = {
+			{"mason-org/mason.nvim", opts = {}},
+			"neovim/nvim-lspconfig",
 		},
 	},
 
