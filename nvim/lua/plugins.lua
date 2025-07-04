@@ -14,7 +14,7 @@ return {
 				style = 'dark'
 			}
 			require('onedark').load()
-		end
+		end,
 	},
 
 	{
@@ -46,14 +46,13 @@ return {
 	{
 		"mason-org/mason-lspconfig.nvim",
 		opts = {
-			ensure_installed = {"clangd", "rust_analyzer", "gopls", "lua_ls"},
+			ensure_installed={"rust_analyzer", "lua_ls"}
 		},
 		dependencies = {
-			{"mason-org/mason.nvim", opts = {}},
+			{ "mason-org/mason.nvim", opts = {} },
 			"neovim/nvim-lspconfig",
 		},
 	},
-
 	-- Autocompletion
 	{
 		"hrsh7th/nvim-cmp",

@@ -1,4 +1,6 @@
 -- [[Configure LSP]] --
+require("neodev").setup()
+
 local on_attach = function(_, bufnr)
 	local nmap = function(keys, func, desc)
 		if desc then
@@ -10,21 +12,39 @@ local on_attach = function(_, bufnr)
 
 	local builtin = require("telescope.builtin")
 
+    vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+
 	nmap("<leader>rn", vim.lsp.buf.rename, "[r]e[n]ame")
 	nmap("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction")
 
 	nmap("<leader>gd", builtin.lsp_definitions, "[g]oto [d]efinition")
 	nmap("<leader>gi", builtin.lsp_implementations, "[g]oto [i]mplementation")
 	nmap("<leader>gt", builtin.lsp_type_definitions, "[g]et [t]ype definitions")
-	
-	nmap("<leader>K", vim.lsp.buf.hover, "Hover Documentation")
-end
 
-require("neodev").setup()
+	nmap("<leader>K", vim.lsp.buf.hover, "Hover Documentation")
+    nmap("<leader>E", vim.diagnostic.open_float, "Hover Error Diagnostic")
+end
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+vim.lsp.config("*", {
+    on_attach = on_attach,
+    capabilities = capabilities
+})
+vim.lsp.config("rust_analyzer", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        rustfmt = { enable = true },
+        semanticHighlighting = { doc = { comment = { inject = { enable = false }}}}
+    }
+})
+
+vim.diagnostic.config({
+    virtual_text = true,
+})
 
 -- Configure nvim-cmp while we're at it
 -- See `:help cmp`
