@@ -34,19 +34,12 @@ return {
 	-- LSP configuration and plugins
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			-- Useful status updates for LSP
-			{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
-
-			-- Additional lua configuration stuff
-			-- docs and completion for nvim api
-			"folke/neodev.nvim"
-		},
+		dependencies = {},
 	},
 	{
 		"mason-org/mason-lspconfig.nvim",
 		opts = {
-			ensure_installed={"rust_analyzer", "lua_ls"}
+			ensure_installed={"clangd", "rust_analyzer", "lua_ls"}
 		},
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
@@ -69,7 +62,6 @@ return {
 	-- Fuzzy finder
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			-- fuzzy finder algo requires local deps to be built
@@ -87,10 +79,17 @@ return {
 	-- code highlighting plus
 	{
 		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
+		lazy = false,
 		build = ":TSUpdate",
 	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
+	},
+	-- Additional lua configuration stuff
+	-- docs and completion for nvim api
+	{"folke/neodev.nvim", opts = {} },
+	-- Useful status updates for LSP
+	{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
 }
 

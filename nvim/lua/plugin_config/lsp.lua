@@ -22,7 +22,7 @@ local on_attach = function(_, bufnr)
 	nmap("<leader>gt", builtin.lsp_type_definitions, "[g]et [t]ype definitions")
 
 	nmap("<leader>K", vim.lsp.buf.hover, "Hover Documentation")
-    nmap("<leader>E", vim.diagnostic.open_float, "Hover Error Diagnostic")
+	nmap("<leader>E", vim.diagnostic.open_float, "Hover Error Diagnostic")
 end
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -30,20 +30,35 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 vim.lsp.config("*", {
-    on_attach = on_attach,
-    capabilities = capabilities
+	on_attach = on_attach,
+	capabilities = capabilities
+})
+vim.lsp.config("clangd", {
+	on_attach = on_attach,
+	root_markers = {
+		"compile_commands.json",
+	},
+	capabilities = capabilities,
+	cmd = {
+		"clangd",
+		"-j=8",
+		"--background-index",
+		"--limit-references=0",
+		"-header-insertion=never",
+		"--log=verbose",
+	},
 })
 vim.lsp.config("rust_analyzer", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        rustfmt = { enable = true },
-        semanticHighlighting = { doc = { comment = { inject = { enable = false }}}}
-    }
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+		rustfmt = { enable = true },
+		semanticHighlighting = { doc = { comment = { inject = { enable = false }}}}
+	}
 })
 
 vim.diagnostic.config({
-    virtual_text = true,
+	virtual_text = true,
 })
 
 -- Configure nvim-cmp while we're at it
@@ -70,11 +85,11 @@ cmp.setup({
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
 	}),
 	sources = cmp.config.sources(
-	{
-		{name = "nvim_lsp"},
-		{name = "luasnip"},
-		{name = "buffer"},
-	}
+		{
+			{name = "nvim_lsp"},
+			{name = "luasnip"},
+			{name = "buffer"},
+		}
 	),
 })
 
