@@ -10,19 +10,19 @@ local on_attach = function(_, bufnr)
 		vim.keymap.set("n", keys, func, {buffer=bufnr, desc=desc})
 	end
 
-	local builtin = require("telescope.builtin")
-
-    vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+	vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
 
 	nmap("<leader>rn", vim.lsp.buf.rename, "[r]e[n]ame")
 	nmap("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction")
 
-	nmap("<leader>gd", builtin.lsp_definitions, "[g]oto [d]efinition")
-	nmap("<leader>gi", builtin.lsp_implementations, "[g]oto [i]mplementation")
-	nmap("<leader>gt", builtin.lsp_type_definitions, "[g]et [t]ype definitions")
+	nmap("<leader>gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+	nmap("<leader>gi", vim.lsp.buf.implementation, "[g]oto [i]mplementation")
+	nmap("<leader>gt", vim.lsp.buf.type_definition, "[g]et [t]ype definitions")
+	nmap("<leader>gr", vim.lsp.buf.references, "[g]et [r]eferences")
 
 	nmap("<leader>K", vim.lsp.buf.hover, "Hover Documentation")
 	nmap("<leader>E", vim.diagnostic.open_float, "Hover Error Diagnostic")
+	nmap("<leader>A", vim.diagnostic.setqflist, "Show All Errors")
 end
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
